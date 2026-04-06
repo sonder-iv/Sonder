@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Nocerah 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pink-deep: #c2185b;
+    --pink-mid: #e91e8c;
+    --pink-soft: #f48fb1;
+    --pink-pale: #fce4ec;
+    --cream: #fff8f0;
+    --gold: #f4c430;
+    --gold-dark: #c9952a;
+    --green-stem: #4a7c3f;
+    --green-leaf: #5a9b4a;
+    --petal-white: #fff5fa;
+    --petal-pink: #ffcce0;
+    --petal-deep: #f48fb1;
+  }
+
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 30% 20%, #ffe4f0 0%, #fce8f3 30%, #f8d7e8 60%, #f0c4dc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    padding: 2rem 1rem;
+  }
+
+  /* Ambient petals falling in background */
+  .bg-petal {
+    position: absolute;
+    width: 12px;
+    height: 16px;
+    border-radius: 50% 50% 50% 0;
+    opacity: 0;
+    animation: falling-petal linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes falling-petal {
+    0%   { transform: translateY(-20px) rotate(0deg) scale(0.8); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.2; }
+    100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; }
+  }
+
+  /* Main scene */
+  .scene {
+    position: relative;
+    width: min(480px, 96vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: auto;
+  }
+
+  /* ─── SVG bouquet ─── */
+  .bouquet-wrap {
+    position: relative;
+    width: 100%;
+    height: min(420px, 55vw);
+  }
+
+  .bouquet-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    display: block;
+  }
+
+  /* Stems sway */
+  .stem-group {
+    transform-origin: 50% 100%;
+    animation: stem-sway 4s ease-in-out infinite;
+  }
+  .stem-group:nth-child(1) { animation-delay: 0s; }
+  .stem-group:nth-child(2) { animation-delay: -1.3s; }
+  .stem-group:nth-child(3) { animation-delay: -2.6s; }
+  .stem-group:nth-child(4) { animation-delay: -0.7s; }
+  .stem-group:nth-child(5) { animation-delay: -1.8s; }
+  .stem-group:nth-child(6) { animation-delay: -3.1s; }
+
+  @keyframes stem-sway {
+    0%, 100% { transform: rotate(-1.8deg); }
+    50%       { transform: rotate(1.8deg); }
+  }
+
+  /* Each lily blooms in */
+  .lily-group {
+    transform-origin: 50% 100%;
+    animation: lily-bloom 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .lily-group:nth-child(1)  { animation-delay: 0.3s; }
+  .lily-group:nth-child(2)  { animation-delay: 0.55s; }
+  .lily-group:nth-child(3)  { animation-delay: 0.8s; }
+  .lily-group:nth-child(4)  { animation-delay: 1.05s; }
+  .lily-group:nth-child(5)  { animation-delay: 1.3s; }
+  .lily-group:nth-child(6)  { animation-delay: 1.55s; }
+
+  @keyframes lily-bloom {
+    0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+  }
+
+  /* Lily gentle bobbing */
+  .lily-bob {
+    animation: bob 3.5s ease-in-out infinite;
+    transform-origin: 50% 100%;
+  }
+  .lily-bob:nth-child(1) { animation-delay: 0s; }
+  .lily-bob:nth-child(2) { animation-delay: -0.8s; }
+  .lily-bob:nth-child(3) { animation-delay: -1.6s; }
+  .lily-bob:nth-child(4) { animation-delay: -2.4s; }
+  .lily-bob:nth-child(5) { animation-delay: -1.1s; }
+  .lily-bob:nth-child(6) { animation-delay: -2.9s; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0px) rotate(-1deg); }
+    50%       { transform: translateY(-5px) rotate(1deg); }
+  }
+
+  /* Floating hearts from bouquet */
+  .heart-particle {
+    position: absolute;
+    opacity: 0;
+    animation: heart-rise 3s ease-out infinite;
+    font-size: 18px;
+    pointer-events: none;
+  }
+  .heart-particle:nth-child(1) { left: 40%; bottom: 52%; animation-delay: 0.5s; font-size: 14px; }
+  .heart-particle:nth-child(2) { left: 55%; bottom: 55%; animation-delay: 1.4s; font-size: 20px; }
+  .heart-particle:nth-child(3) { left: 35%; bottom: 60%; animation-delay: 2.2s; font-size: 12px; }
+  .heart-particle:nth-child(4) { left: 60%; bottom: 58%; animation-delay: 0.9s; font-size: 16px; }
+  .heart-particle:nth-child(5) { left: 48%; bottom: 57%; animation-delay: 1.8s; font-size: 11px; }
+
+  @keyframes heart-rise {
+    0%   { transform: translateY(0)   scale(0.5) rotate(-10deg); opacity: 0; }
+    15%  { opacity: 0.9; }
+    80%  { opacity: 0.6; }
+    100% { transform: translateY(-130px) scale(0.2) rotate(10deg); opacity: 0; }
+  }
+
+  /* Sparkle stars */
+  .sparkle {
+    position: absolute;
+    animation: sparkle-pulse 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes sparkle-pulse {
+    0%, 100% { transform: scale(0) rotate(0deg);   opacity: 0; }
+    50%       { transform: scale(1) rotate(45deg);  opacity: 1; }
+  }
+  .sparkle::before, .sparkle::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+  .sparkle::before { width: 14px; height: 2px; top: 6px; left: 0; }
+  .sparkle::after  { width: 2px; height: 14px; top: 0; left: 6px; }
+
+  /* ─── Message card ─── */
+  .message-card {
+    position: relative;
+    background: rgba(255,255,255,0.92);
+    border: 1.5px solid rgba(194, 24, 91, 0.25);
+    border-radius: 24px;
+    padding: 1.6rem 2rem 1.5rem;
+    text-align: center;
+    width: 100%;
+    max-width: 420px;
+    backdrop-filter: blur(8px);
+    animation: card-appear 1s cubic-bezier(0.34,1.56,0.64,1) 2s both, card-pulse 4s ease-in-out 3s infinite;
+    margin-top: -10px;
+  }
+
+  @keyframes card-appear {
+    0%   { transform: translateY(30px) scale(0.8); opacity: 0; }
+    100% { transform: translateY(0)    scale(1);   opacity: 1; }
+  }
+  @keyframes card-pulse {
+    0%, 100% { box-shadow: 0 8px 40px rgba(194,24,91,0.12), 0 0 0 0 rgba(194,24,91,0.08); }
+    50%       { box-shadow: 0 8px 40px rgba(194,24,91,0.22), 0 0 0 12px rgba(194,24,91,0); }
+  }
+
+  /* Triangle pointer up */
+  .message-card::before {
+    content: '';
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 20px;
+    height: 20px;
+    background: rgba(255,255,255,0.92);
+    border-left: 1.5px solid rgba(194, 24, 91, 0.25);
+    border-top: 1.5px solid rgba(194, 24, 91, 0.25);
+    border-radius: 3px 0 0 0;
+  }
+
+  .card-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: var(--pink-soft);
+    margin-bottom: 0.7rem;
+  }
+
+  .card-message {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--pink-deep);
+    line-height: 1.25;
+    margin-bottom: 1.2rem;
+  }
+
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 34px;
+    color: var(--pink-mid);
+  }
+
+  .card-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--pink-soft), transparent);
+    margin: 1rem auto;
+  }
+
+  .card-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 15px;
+    color: #c06;
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+  }
+
+  /* Yes / No buttons */
+  .card-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 1.4rem;
+  }
+
+  .btn {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    letter-spacing: 0.08em;
+    padding: 0.55rem 1.8rem;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 1.5px solid;
+    transition: all 0.25s;
+  }
+
+  .btn-yes {
+    background: var(--pink-deep);
+    color: white;
+    border-color: var(--pink-deep);
+  }
+  .btn-yes:hover {
+    background: var(--pink-mid);
+    border-color: var(--pink-mid);
+    transform: scale(1.06);
+  }
+
+  .btn-no {
+    background: transparent;
+    color: var(--pink-soft);
+    border-color: var(--pink-soft);
+    transition: all 0.2s, transform 0.1s, left 0.2s, top 0.2s;
+    position: relative;
+  }
+  .btn-no:hover { transform: scale(0.95); }
+
+  /* Response overlay */
+  .response-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(252, 228, 236, 0.97);
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: overlay-in 0.6s ease both;
+  }
+  .response-overlay.show { display: flex; }
+
+  @keyframes overlay-in {
+    0%   { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .response-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--pink-deep);
+    text-align: center;
+    animation: text-bounce 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
+  }
+  @keyframes text-bounce {
+    0%   { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .response-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--pink-mid);
+    margin-top: 1rem;
+    animation: text-bounce 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.5s both;
+  }
+
+  .confetti-heart {
+    position: absolute;
+    font-size: 24px;
+    animation: confetti-fall linear infinite;
+    pointer-events: none;
+    opacity: 0;
+  }
+  @keyframes confetti-fall {
+    0%   { transform: translateY(-30px) rotate(0deg) scale(1); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.8; }
+    100% { transform: translateY(110vh) rotate(540deg) scale(0.4); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background falling petals -->
+<div id="bg-petals" style="position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;"></div>
+
+<div class="scene" style="position:relative;z-index:1;">
+  <div class="bouquet-wrap">
+
+    <!-- Floating hearts above bouquet -->
+    <div class="heart-particle">♥</div>
+    <div class="heart-particle">♥</div>
+    <div class="heart-particle">♥</div>
+    <div class="heart-particle">♥</div>
+    <div class="heart-particle">♥</div>
+
+    <!-- Sparkles -->
+    <div class="sparkle" style="top:18%;left:15%;animation-delay:0s;"></div>
+    <div class="sparkle" style="top:10%;left:72%;animation-delay:0.7s;"></div>
+    <div class="sparkle" style="top:35%;left:5%;animation-delay:1.3s;"></div>
+    <div class="sparkle" style="top:28%;right:6%;animation-delay:0.4s;"></div>
+    <div class="sparkle" style="top:55%;left:10%;animation-delay:1.8s;"></div>
+
+    <svg class="bouquet-svg" viewBox="0 0 420 500" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sg" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#3d6b35"/>
+          <stop offset="100%" stop-color="#6ab55a"/>
+        </linearGradient>
+        <linearGradient id="pg1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#fff5fa"/>
+          <stop offset="100%" stop-color="#ffcce0"/>
+        </linearGradient>
+        <linearGradient id="pg2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ffcce0"/>
+          <stop offset="100%" stop-color="#f48fb1"/>
+        </linearGradient>
+        <linearGradient id="pg3" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ffd6ea"/>
+          <stop offset="100%" stop-color="#e91e8c"/>
+        </linearGradient>
+        <linearGradient id="wrapG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#fffbea"/>
+          <stop offset="100%" stop-color="#fce97a"/>
+        </linearGradient>
+        <linearGradient id="ribG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ff80be"/>
+          <stop offset="100%" stop-color="#c2185b"/>
+        </linearGradient>
+        <!-- shadow under bouquet -->
+        <radialGradient id="shadowG" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="#d4a0bc" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#d4a0bc" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- ground shadow -->
+      <ellipse cx="210" cy="498" rx="95" ry="8" fill="url(#shadowG)"/>
+
+      <!-- ── STEMS (6) ── each in its own group so they sway independently -->
+      <!-- Stem 1: left-leaning tall -->
+      <g class="stem-group" style="transform-origin:210px 460px; animation-delay:0s">
+        <path d="M210 460 C207 410 202 360 195 310" stroke="url(#sg)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M200 380 C188 370 176 358 168 348" stroke="url(#sg)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="165" cy="346" rx="12" ry="5.5" fill="#5a9b4a" transform="rotate(-35 165 346)"/>
+      </g>
+
+      <!-- Stem 2: right-leaning tall -->
+      <g class="stem-group" style="transform-origin:210px 460px; animation-delay:-1.3s">
+        <path d="M210 460 C214 408 220 358 228 305" stroke="url(#sg)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M222 375 C236 363 248 350 256 340" stroke="url(#sg)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="259" cy="338" rx="12" ry="5.5" fill="#5a9b4a" transform="rotate(30 259 338)"/>
+      </g>
+
+      <!-- Stem 3: centre tall -->
+      <g class="stem-group" style="transform-origin:210px 460px; animation-delay:-2.6s">
+        <path d="M210 460 C209 408 208 358 206 300" stroke="url(#sg)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M208 360 C196 352 185 342 178 332" stroke="url(#sg)" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="175" cy="330" rx="11" ry="5" fill="#5a9b4a" transform="rotate(-28 175 330)"/>
+      </g>
+
+      <!-- Stem 4: far left short -->
+      <g class="stem-group" style="transform-origin:210px 460px; animation-delay:-0.7s">
+        <path d="M210 460 C203 415 192 375 180 335" stroke="url(#sg)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M186 392 C174 384 164 374 158 364" stroke="url(#sg)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="155" cy="362" rx="10" ry="4.5" fill="#5a9b4a" transform="rotate(-40 155 362)"/>
+      </g>
+
+      <!-- Stem 5: far right short -->
+      <g class="stem-group" style="transform-origin:210px 460px; animation-delay:-1.8s">
+        <path d="M210 460 C218 414 230 376 242 336" stroke="url(#sg)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M235 392 C248 382 258 370 264 360" stroke="url(#sg)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="267" cy="358" rx="10" ry="4.5" fill="#5a9b4a" transform="rotate(35 267 358)"/>
+      </g>
+
+      <!-- Stem 6: centre-right mid -->
+      <g class="stem-group" style="transform-origin:210px 460px; animation-delay:-3.1s">
+        <path d="M210 460 C212 418 217 385 222 348" stroke="url(#sg)" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- ── PAPER WRAP ── -->
+      <!-- back layer -->
+      <path d="M155 400 L175 365 L210 355 L245 365 L265 400 L255 460 L165 460 Z" fill="#fff9e0" stroke="#e8c840" stroke-width="1.2"/>
+      <!-- left panel -->
+      <path d="M155 400 L175 365 L185 380 L170 420 Z" fill="#fef3c0" stroke="#e8c840" stroke-width="0.8"/>
+      <!-- right panel -->
+      <path d="M265 400 L245 365 L235 380 L250 420 Z" fill="#fef3c0" stroke="#e8c840" stroke-width="0.8"/>
+      <!-- centre highlight -->
+      <path d="M185 380 L210 360 L235 380 L228 440 L192 440 Z" fill="url(#wrapG)" stroke="#e8c840" stroke-width="0.8"/>
+      <!-- fold lines -->
+      <path d="M185 380 L192 440" stroke="#e0b830" stroke-width="0.6" opacity="0.6"/>
+      <path d="M235 380 L228 440" stroke="#e0b830" stroke-width="0.6" opacity="0.6"/>
+
+      <!-- Ribbon bow -->
+      <path d="M210 368 C200 358 185 352 180 358 C175 364 185 372 210 368 Z" fill="url(#ribG)"/>
+      <path d="M210 368 C220 358 235 352 240 358 C245 364 235 372 210 368 Z" fill="url(#ribG)"/>
+      <circle cx="210" cy="368" r="7" fill="#e91e8c"/>
+      <circle cx="210" cy="368" r="4" fill="#ff80be"/>
+      <!-- Ribbon tails -->
+      <path d="M206 374 C202 384 198 392 195 402" stroke="#e91e8c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M214 374 C218 384 222 392 225 402" stroke="#e91e8c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+      <!-- ── LILIES (6) ── -->
+
+      <!-- Lily 1: top-centre (biggest, deep pink) -->
+      <g class="lily-bob">
+      <g class="lily-group" style="transform-origin:206px 300px">
+        <g transform="translate(206,300)">
+          <path d="M0,-45 C8,-32 10,-14 0,0 C-10,-14 -8,-32 0,-45" fill="url(#pg2)" stroke="#e91e8c" stroke-width="1"/>
+          <path d="M0,-45 C8,-32 10,-14 0,0 C-10,-14 -8,-32 0,-45" fill="url(#pg2)" stroke="#e91e8c" stroke-width="1" transform="rotate(60)"/>
+          <path d="M0,-45 C8,-32 10,-14 0,0 C-10,-14 -8,-32 0,-45" fill="url(#pg2)" stroke="#e91e8c" stroke-width="1" transform="rotate(120)"/>
+          <path d="M0,-45 C8,-32 10,-14 0,0 C-10,-14 -8,-32 0,-45" fill="url(#pg2)" stroke="#e91e8c" stroke-width="1" transform="rotate(180)"/>
+          <path d="M0,-45 C8,-32 10,-14 0,0 C-10,-14 -8,-32 0,-45" fill="url(#pg2)" stroke="#e91e8c" stroke-width="1" transform="rotate(240)"/>
+          <path d="M0,-45 C8,-32 10,-14 0,0 C-10,-14 -8,-32 0,-45" fill="url(#pg2)" stroke="#e91e8c" stroke-width="1" transform="rotate(300)"/>
+          <!-- spots on petals -->
+          <circle cx="0" cy="-28" r="2.5" fill="#c2185b" opacity="0.5"/>
+          <circle cx="0" cy="-22" r="1.8" fill="#c2185b" opacity="0.4"/>
+          <circle cx="24" cy="-14" r="2" fill="#c2185b" opacity="0.5" transform="rotate(60)"/>
+          <!-- centre -->
+          <circle cx="0" cy="0" r="8" fill="#fbd250"/>
+          <!-- stamens -->
+          <line x1="0" y1="-10" x2="2" y2="-22" stroke="#a01040" stroke-width="1.4"/><circle cx="2" cy="-23" r="2.5" fill="#6d0a2c"/>
+          <line x1="0" y1="-10" x2="-4" y2="-24" stroke="#a01040" stroke-width="1.4"/><circle cx="-4" cy="-25" r="2.5" fill="#6d0a2c"/>
+          <line x1="0" y1="-10" x2="6" y2="-21" stroke="#a01040" stroke-width="1.4"/><circle cx="6" cy="-22" r="2.5" fill="#6d0a2c"/>
+          <line x1="0" y1="-10" x2="-6" y2="-20" stroke="#a01040" stroke-width="1.4"/><circle cx="-6" cy="-21" r="2.5" fill="#6d0a2c"/>
+          <line x1="0" y1="-10" x2="0" y2="-25" stroke="#a01040" stroke-width="1.4"/><circle cx="0" cy="-26" r="2.5" fill="#6d0a2c"/>
+        </g>
+      </g>
+      </g>
+
+      <!-- Lily 2: upper-left (pale pink) -->
+      <g class="lily-bob" style="animation-delay:-0.8s">
+      <g class="lily-group" style="transform-origin:195px 310px">
+        <g transform="translate(195,310)">
+          <path d="M0,-40 C7,-28 9,-12 0,0 C-9,-12 -7,-28 0,-40" fill="url(#pg1)" stroke="#ffb3d0" stroke-width="0.9" transform="rotate(15)"/>
+          <path d="M0,-40 C7,-28 9,-12 0,0 C-9,-12 -7,-28 0,-40" fill="url(#pg1)" stroke="#ffb3d0" stroke-width="0.9" transform="rotate(75)"/>
+          <path d="M0,-40 C7,-28 9,-12 0,0 C-9,-12 -7,-28 0,-40" fill="url(#pg1)" stroke="#ffb3d0" stroke-width="0.9" transform="rotate(135)"/>
+          <path d="M0,-40 C7,-28 9,-12 0,0 C-9,-12 -7,-28 0,-40" fill="url(#pg1)" stroke="#ffb3d0" stroke-width="0.9" transform="rotate(195)"/>
+          <path d="M0,-40 C7,-28 9,-12 0,0 C-9,-12 -7,-28 0,-40" fill="url(#pg1)" stroke="#ffb3d0" stroke-width="0.9" transform="rotate(255)"/>
+          <path d="M0,-40 C7,-28 9,-12 0,0 C-9,-12 -7,-28 0,-40" fill="url(#pg1)" stroke="#ffb3d0" stroke-width="0.9" transform="rotate(315)"/>
+          <circle cx="0" cy="-24" r="2" fill="#e91e8c" opacity="0.35"/>
+          <circle cx="0" cy="0" r="7" fill="#f9c840"/>
+          <line x1="0" y1="-9" x2="3" y2="-20" stroke="#b03060" stroke-width="1.3"/><circle cx="3" cy="-21" r="2.2" fill="#701030"/>
+          <line x1="0" y1="-9" x2="-4" y2="-21" stroke="#b03060" stroke-width="1.3"/><circle cx="-4" cy="-22" r="2.2" fill="#701030"/>
+          <line x1="0" y1="-9" x2="5" y2="-19" stroke="#b03060" stroke-width="1.3"/><circle cx="5" cy="-20" r="2.2" fill="#701030"/>
+          <line x1="0" y1="-9" x2="-2" y2="-22" stroke="#b03060" stroke-width="1.3"/><circle cx="-2" cy="-23" r="2.2" fill="#701030"/>
+        </g>
+      </g>
+      </g>
+
+      <!-- Lily 3: upper-right (mid pink) -->
+      <g class="lily-bob" style="animation-delay:-1.6s">
+      <g class="lily-group" style="transform-origin:228px 305px">
+        <g transform="translate(228,305)">
+          <path d="M0,-42 C7,-30 9,-13 0,0 C-9,-13 -7,-30 0,-42" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.9" transform="rotate(30)"/>
+          <path d="M0,-42 C7,-30 9,-13 0,0 C-9,-13 -7,-30 0,-42" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.9" transform="rotate(90)"/>
+          <path d="M0,-42 C7,-30 9,-13 0,0 C-9,-13 -7,-30 0,-42" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.9" transform="rotate(150)"/>
+          <path d="M0,-42 C7,-30 9,-13 0,0 C-9,-13 -7,-30 0,-42" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.9" transform="rotate(210)"/>
+          <path d="M0,-42 C7,-30 9,-13 0,0 C-9,-13 -7,-30 0,-42" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.9" transform="rotate(270)"/>
+          <path d="M0,-42 C7,-30 9,-13 0,0 C-9,-13 -7,-30 0,-42" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.9" transform="rotate(330)"/>
+          <circle cx="0" cy="-26" r="2" fill="#c2185b" opacity="0.4"/>
+          <circle cx="0" cy="0" r="7" fill="#fbd350"/>
+          <line x1="0" y1="-9" x2="4" y2="-21" stroke="#9a2050" stroke-width="1.3"/><circle cx="4" cy="-22" r="2.3" fill="#6b1040"/>
+          <line x1="0" y1="-9" x2="-4" y2="-22" stroke="#9a2050" stroke-width="1.3"/><circle cx="-4" cy="-23" r="2.3" fill="#6b1040"/>
+          <line x1="0" y1="-9" x2="6" y2="-19" stroke="#9a2050" stroke-width="1.3"/><circle cx="6" cy="-20" r="2.3" fill="#6b1040"/>
+          <line x1="0" y1="-9" x2="-1" y2="-23" stroke="#9a2050" stroke-width="1.3"/><circle cx="-1" cy="-24" r="2.3" fill="#6b1040"/>
+        </g>
+      </g>
+      </g>
+
+      <!-- Lily 4: far-left mid (deep) -->
+      <g class="lily-bob" style="animation-delay:-2.4s">
+      <g class="lily-group" style="transform-origin:180px 335px">
+        <g transform="translate(180,335)">
+          <path d="M0,-38 C6,-27 8,-11 0,0 C-8,-11 -6,-27 0,-38" fill="url(#pg3)" stroke="#e91e8c" stroke-width="0.9"/>
+          <path d="M0,-38 C6,-27 8,-11 0,0 C-8,-11 -6,-27 0,-38" fill="url(#pg3)" stroke="#e91e8c" stroke-width="0.9" transform="rotate(60)"/>
+          <path d="M0,-38 C6,-27 8,-11 0,0 C-8,-11 -6,-27 0,-38" fill="url(#pg3)" stroke="#e91e8c" stroke-width="0.9" transform="rotate(120)"/>
+          <path d="M0,-38 C6,-27 8,-11 0,0 C-8,-11 -6,-27 0,-38" fill="url(#pg3)" stroke="#e91e8c" stroke-width="0.9" transform="rotate(180)"/>
+          <path d="M0,-38 C6,-27 8,-11 0,0 C-8,-11 -6,-27 0,-38" fill="url(#pg3)" stroke="#e91e8c" stroke-width="0.9" transform="rotate(240)"/>
+          <path d="M0,-38 C6,-27 8,-11 0,0 C-8,-11 -6,-27 0,-38" fill="url(#pg3)" stroke="#e91e8c" stroke-width="0.9" transform="rotate(300)"/>
+          <circle cx="0" cy="-24" r="1.8" fill="#fff" opacity="0.5"/>
+          <circle cx="0" cy="0" r="6.5" fill="#fac840"/>
+          <line x1="0" y1="-9" x2="3" y2="-19" stroke="#801030" stroke-width="1.3"/><circle cx="3" cy="-20" r="2.2" fill="#501020"/>
+          <line x1="0" y1="-9" x2="-3" y2="-20" stroke="#801030" stroke-width="1.3"/><circle cx="-3" cy="-21" r="2.2" fill="#501020"/>
+          <line x1="0" y1="-9" x2="5" y2="-17" stroke="#801030" stroke-width="1.3"/><circle cx="5" cy="-18" r="2.2" fill="#501020"/>
+        </g>
+      </g>
+      </g>
+
+      <!-- Lily 5: far-right mid -->
+      <g class="lily-bob" style="animation-delay:-1.1s">
+      <g class="lily-group" style="transform-origin:242px 336px">
+        <g transform="translate(242,336)">
+          <path d="M0,-36 C6,-26 8,-10 0,0 C-8,-10 -6,-26 0,-36" fill="url(#pg1)" stroke="#ffaacc" stroke-width="0.8" transform="rotate(20)"/>
+          <path d="M0,-36 C6,-26 8,-10 0,0 C-8,-10 -6,-26 0,-36" fill="url(#pg1)" stroke="#ffaacc" stroke-width="0.8" transform="rotate(80)"/>
+          <path d="M0,-36 C6,-26 8,-10 0,0 C-8,-10 -6,-26 0,-36" fill="url(#pg1)" stroke="#ffaacc" stroke-width="0.8" transform="rotate(140)"/>
+          <path d="M0,-36 C6,-26 8,-10 0,0 C-8,-10 -6,-26 0,-36" fill="url(#pg1)" stroke="#ffaacc" stroke-width="0.8" transform="rotate(200)"/>
+          <path d="M0,-36 C6,-26 8,-10 0,0 C-8,-10 -6,-26 0,-36" fill="url(#pg1)" stroke="#ffaacc" stroke-width="0.8" transform="rotate(260)"/>
+          <path d="M0,-36 C6,-26 8,-10 0,0 C-8,-10 -6,-26 0,-36" fill="url(#pg1)" stroke="#ffaacc" stroke-width="0.8" transform="rotate(320)"/>
+          <circle cx="0" cy="0" r="6" fill="#f9c840"/>
+          <line x1="0" y1="-9" x2="3" y2="-18" stroke="#a03055" stroke-width="1.2"/><circle cx="3" cy="-19" r="2" fill="#6b1040"/>
+          <line x1="0" y1="-9" x2="-3" y2="-19" stroke="#a03055" stroke-width="1.2"/><circle cx="-3" cy="-20" r="2" fill="#6b1040"/>
+          <line x1="0" y1="-9" x2="5" y2="-16" stroke="#a03055" stroke-width="1.2"/><circle cx="5" cy="-17" r="2" fill="#6b1040"/>
+        </g>
+      </g>
+      </g>
+
+      <!-- Lily 6: centre front (small bud almost open) -->
+      <g class="lily-bob" style="animation-delay:-2.9s">
+      <g class="lily-group" style="transform-origin:222px 348px">
+        <g transform="translate(222,348)">
+          <path d="M0,-32 C5,-22 7,-9 0,0 C-7,-9 -5,-22 0,-32" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.8" transform="rotate(10)"/>
+          <path d="M0,-32 C5,-22 7,-9 0,0 C-7,-9 -5,-22 0,-32" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.8" transform="rotate(70)"/>
+          <path d="M0,-32 C5,-22 7,-9 0,0 C-7,-9 -5,-22 0,-32" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.8" transform="rotate(130)"/>
+          <path d="M0,-32 C5,-22 7,-9 0,0 C-7,-9 -5,-22 0,-32" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.8" transform="rotate(190)"/>
+          <path d="M0,-32 C5,-22 7,-9 0,0 C-7,-9 -5,-22 0,-32" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.8" transform="rotate(250)"/>
+          <path d="M0,-32 C5,-22 7,-9 0,0 C-7,-9 -5,-22 0,-32" fill="url(#pg2)" stroke="#f48fb1" stroke-width="0.8" transform="rotate(310)"/>
+          <circle cx="0" cy="0" r="5.5" fill="#fbd250"/>
+          <line x1="0" y1="-8" x2="3" y2="-16" stroke="#9a2050" stroke-width="1.2"/><circle cx="3" cy="-17" r="1.9" fill="#6b1040"/>
+          <line x1="0" y1="-8" x2="-3" y2="-17" stroke="#9a2050" stroke-width="1.2"/><circle cx="-3" cy="-18" r="1.9" fill="#6b1040"/>
+          <line x1="0" y1="-8" x2="4" y2="-14" stroke="#9a2050" stroke-width="1.2"/><circle cx="4" cy="-15" r="1.9" fill="#6b1040"/>
+        </g>
+      </g>
+      </g>
+
+    </svg>
+  </div>
+
+  <!-- Message card -->
+  <div class="message-card">
+    <p class="card-eyebrow">a question from the heart</p>
+    <p class="card-message">Will you be my girlfriend,</p>
+    <p class="card-name">Nocerah?</p>
+    <div class="card-divider"></div>
+    <p class="card-sub">these lilies were handpicked just for you</p>
+    <div class="card-buttons">
+      <button class="btn btn-yes" onclick="sayYes()">Yes, always</button>
+      <button class="btn btn-no" id="noBtn" onmouseover="runAway(this)" onclick="sayYes()">Maybe no</button>
+    </div>
+  </div>
+</div>
+
+<!-- Response overlay (yes) -->
+<div class="response-overlay" id="responseOverlay">
+  <div id="confetti-container"></div>
+
+  <!-- Stage 1: celebration -->
+  <div id="stage-yes" style="display:flex;flex-direction:column;align-items:center;gap:0.8rem;text-align:center;padding:2rem 1.5rem;">
+    <p class="response-text">She said yes! 🌸</p>
+    <p class="response-sub">the lilies are blooming for you both</p>
+    <button onclick="showPromise()" style="margin-top:1.2rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;letter-spacing:0.08em;padding:0.65rem 2rem;border-radius:50px;border:1.5px solid #c2185b;background:#c2185b;color:white;cursor:pointer;">read my promise to you →</button>
+  </div>
+
+  <!-- Stage 2: promise message -->
+  <div id="stage-promise" style="display:none;flex-direction:column;align-items:center;text-align:center;padding:2.5rem 2rem;max-width:520px;">
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:0.18em;color:#e91e8c;margin-bottom:1.4rem;">a promise, just for you</p>
+    <p id="promise-text" style="font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,32px);font-weight:400;color:#7a0030;line-height:1.6;margin:0;"></p>
+    <div style="width:60px;height:1px;background:linear-gradient(to right,transparent,#f48fb1,transparent);margin:1.8rem auto;"></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:#c2185b;opacity:0.8;letter-spacing:0.05em;">always &amp; forever, yours 🌸</p>
+  </div>
+</div>
+
+<script>
+  // Background petals
+  const petalColors = ['#ffcce0','#f48fb1','#ffd6ea','#ffe4f2','#ffb3d0'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'bg-petal';
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*-20}%;
+      background:${petalColors[Math.floor(Math.random()*petalColors.length)]};
+      opacity:0;
+      width:${8+Math.random()*10}px;
+      height:${12+Math.random()*10}px;
+      border-radius:${40+Math.random()*20}% ${40+Math.random()*20}% ${40+Math.random()*20}% 0;
+      animation-duration:${6+Math.random()*8}s;
+      animation-delay:${Math.random()*6}s;
+    `;
+    document.getElementById('bg-petals').appendChild(p);
+  }
+
+  // No button runs away
+  let noMoves = 0;
+  function runAway(btn) {
+    if (noMoves > 5) { sayYes(); return; }
+    noMoves++;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const bw = btn.offsetWidth;
+    const bh = btn.offsetHeight;
+    const x = Math.random() * (vw - bw - 40) + 20;
+    const y = Math.random() * (vh - bh - 40) + 20;
+    btn.style.position = 'fixed';
+    btn.style.left = x + 'px';
+    btn.style.top  = y + 'px';
+    btn.style.zIndex = 200;
+  }
+
+  function sayYes() {
+    const overlay = document.getElementById('responseOverlay');
+    overlay.classList.add('show');
+    launchConfetti();
+  }
+
+  function launchConfetti() {
+    const container = document.getElementById('confetti-container');
+    const emojis = ['♥','🌸','✿','❀','♡','🌷'];
+    for (let i = 0; i < 40; i++) {
+      const h = document.createElement('div');
+      h.className = 'confetti-heart';
+      h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      h.style.cssText = `
+        left:${Math.random()*100}vw;
+        top:-30px;
+        font-size:${16+Math.random()*20}px;
+        animation-duration:${3+Math.random()*4}s;
+        animation-delay:${Math.random()*2}s;
+        color:hsl(${320+Math.random()*40},70%,${50+Math.random()*20}%);
+      `;
+      container.appendChild(h);
+    }
+  }
+
+  function showPromise() {
+    document.getElementById('stage-yes').style.display = 'none';
+    const stage = document.getElementById('stage-promise');
+    stage.style.display = 'flex';
+    stage.style.opacity = '0';
+    stage.style.transition = 'opacity 1s ease';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => { stage.style.opacity = '1'; });
+    });
+    const message = 'I promise to love, cherish, and protect you now and forever.';
+    const el = document.getElementById('promise-text');
+    el.textContent = '';
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < message.length) {
+        el.textContent += message[i];
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 45);
+  }
+</script>
+</body>
+</html>
